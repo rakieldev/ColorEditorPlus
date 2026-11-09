@@ -1,0 +1,429 @@
+; Color Editor Configuration File
+
+[Info]
+; Editor coordinates.
+localcoord = 1280, 720
+
+[Select Info]
+title.coloreditor.text = "SELECT CHARACTER"
+
+[ColorEditor Info]
+; Shared origin for grid and slider offsets.
+pos = 640, 360
+
+; Editor title.
+title.text.offset = 640, 48
+title.text.font = 4, 0, 0
+title.text.scale = 1.0, 1.0
+title.text.text = "COLOR EDITOR"
+title.text.window = 40, 0, 1240, 84
+
+; Character name and selected palette.
+character.text.offset = 64, 128
+character.text.font = 2, 0, 1
+character.text.scale = 0.9, 0.9
+character.text.window = 64, 104, 648, 138
+character.text.text = "%s  |  Palette %d"
+
+; SFF version, palette source and editable channels.
+format.text.offset = 64, 156
+format.text.font = 2, 0, 1, 176, 176, 176
+format.text.scale = 0.65, 0.65
+format.text.window = 64, 140, 648, 172
+format.text.text = "SFF Ver: %s | %s (%s)"
+format.act.text = "ACT"
+format.sff.text = "SFF"
+format.readonly.text = " | read-only"
+
+; Panel border color.
+panel.border.col = 70, 70, 76
+
+; Character preview.
+panel.preview.offset = 40, 96
+panel.preview.size = 632, 516
+panel.preview.col = 22, 22, 28
+panel.preview.alpha = 224
+
+; Palette and sliders.
+panel.palette.offset = 704, 96
+panel.palette.size = 536, 516
+panel.palette.col = 24, 24, 28
+panel.palette.alpha = 255
+
+; Status messages.
+panel.status.offset = 40, 628
+panel.status.size = 1200, 42
+panel.status.col = 16, 16, 22
+panel.status.alpha = 240
+
+; Confirmations.
+panel.dialog.offset = 350, 244
+panel.dialog.size = 580, 220
+panel.dialog.col = 24, 24, 30
+panel.dialog.alpha = 255
+
+; Dim the screen behind dialogs.
+panel.darken.offset = 0, 0
+panel.darken.size = 1280, 720
+panel.darken.col = 0, 0, 0
+panel.darken.alpha = 160
+
+; Screen transitions. Times are in frames.
+fadein.time = 10
+fadein.col = 0, 0, 0
+; fadein.anim = -1
+; fadein.snd = -1, 0
+fadeout.time = 10
+fadeout.col = 0, 0, 0
+; fadeout.anim = -1
+; fadeout.snd = -1, 0
+
+; Editor music.
+bgm.path =
+bgm.loop = 1
+bgm.volume = 100
+; bgm.loopstart =
+; bgm.loopend =
+bgm.startposition = 0
+bgm.freqmul = 1.0
+bgm.loopcount = -1
+
+; Move, cancel and confirm sounds.
+move.snd = 100, 0
+cancel.snd = 100, 2
+done.snd = 100, 1
+
+; Palette grid and transparency checker.
+cell.select.key = a
+cell.confirm.key = a
+cell.cancel.key = b
+cell.offset = 166, -228
+cell.size = 18, 18
+cell.spacing = 3, 3
+cell.columns = 16
+cell.checker.dark = 64, 64, 68
+cell.checker.light = 112, 112, 116
+
+; Grid cursor. Sprite or action replaces the default border.
+cell.cursor.up.key = U
+cell.cursor.down.key = D
+cell.cursor.fwd.key = F
+cell.cursor.back.key = B
+cell.cursor.col = 255, 255, 255
+cell.cursor.edit.col = 123, 206, 255
+cell.cursor.shadow.col = 0, 0, 0
+cell.cursor.width = 1
+; X/Y movement factors. 0 disables tween.
+cell.cursor.tween.factor = 0.5, 0.5
+; Snap immediately when wrapping across grid edges.
+; cell.cursor.tween.wrap.snap = 0
+; cell.cursor.spr = -1, 0
+; cell.cursor.anim = -1
+cell.cursor.offset = 0, 0
+cell.cursor.scale = 0.06, 0.06
+
+; Y marks indices for HSV adjustment. Marker offsets start at each cell.
+multicolor.enabled = 1
+multicolor.key = y
+multicolor.marker.col = 255, 200, 96
+multicolor.marker.width = 1
+; multicolor.marker.spr = -1, 0
+; multicolor.marker.anim = -1
+multicolor.marker.offset = 0, 0
+multicolor.marker.scale = 1, 1
+multicolor.text.offset = 1216, 122
+multicolor.text.font = 2, 0, -1, 255, 200, 96
+multicolor.text.scale = 0.65, 0.65
+multicolor.text.window = 984, 102, 1216, 128
+multicolor.text.text = "%d selected"
+
+; Character preview. Scale follows p1.face.scale.
+preview.offset = -284, 220
+preview.scale = 0.75, 0.75
+preview.window = 56, 176, 656, 596
+; Hold browse to cycle actions, or adjust to move and zoom.
+preview.browse.key = x
+preview.next.key = F
+preview.prev.key = B
+preview.adjust.key = c
+preview.move.up.key = U
+preview.move.down.key = D
+preview.move.back.key = B
+preview.move.fwd.key = F
+preview.move.step = 8, 8
+preview.zoom.decrease.key = x
+preview.zoom.increase.key = y
+preview.zoom.step = 0.1
+preview.zoom.min = 0.25
+preview.zoom.max = 4
+preview.reset.key = a
+
+; Preview animation range and excluded actions.
+anim.exclude = 5, 6, 10, 12, 40, 47, 140, 141, 142, 150, 151, 152, 5005, 5006, 5007, 5015, 5016, 5017, 5025, 5026, 5027, 5150, 5160, 5210
+anim.range = 0, 32768
+
+; Blink the cursor and marked indices. Hold/fade times are in frames.
+preview.highlight.enabled = 1
+preview.highlight.time = 14
+preview.highlight.fade.time = 8
+preview.highlight.col = 255, 255, 255
+preview.highlight.alt.col = 55, 55, 55
+
+; Color locator. Requires animPaletteCopy and takes priority over highlight.
+preview.locator.enabled = 1
+preview.locator.offset = 566, 580
+preview.locator.scale = 0.5, 0.5
+preview.locator.window = 476, 315, 656, 596
+preview.locator.col = 55, 55, 55
+preview.locator.selected.col = 255, 255, 255
+preview.locator.marked.col = 255, 200, 96
+preview.locator.main.offset = -380, 220
+preview.locator.main.window = 56, 176, 464, 596
+
+; Selected color index.
+index.text.offset = 728, 122
+index.text.font = 2, 0, 1, 192, 192, 192
+index.text.scale = 0.65, 0.65
+index.text.window = 728, 102, 1216, 128
+index.text.text = "Index %03d / %03d"
+
+; Reference color from the last load, save or restore.
+before.text.offset = 952, 516
+before.text.font = 1, 0, 0, 208, 208, 208
+before.text.scale = 1.5, 1.5
+before.text.window = 704, 504, 1240, 522
+before.text.text = "Before"
+before.swatch.offset = 936, 472
+before.swatch.size = 32, 32
+
+; Current edited color.
+after.text.offset = 992, 516
+after.text.font = 1, 0, 0, 208, 208, 208
+after.text.scale = 1.5, 1.5
+after.text.window = 704, 504, 1240, 522
+after.text.text = "After"
+after.swatch.offset = 976, 472
+after.swatch.size = 32, 32
+
+; Channel controls, track and value indicator.
+slider.increase.key = F
+slider.decrease.key = B
+slider.next.key = D
+slider.prev.key = U
+slider.track.col = 60, 60, 66
+slider.indicator.size = 2, 20
+slider.indicator.col = 240, 240, 240
+
+; Red.
+slider.r.size = 378, 8
+slider.r.col = 224, 100, 100
+slider.r.offset = 186, 166
+slider.r.text.font = 2, 0, 1, 224, 140, 140
+slider.r.text.offset = 728, 536
+slider.r.text.scale = 0.65, 0.65
+slider.r.text.window = 728, 516, 816, 542
+slider.r.text.text = "R %3d"
+
+; Green.
+slider.g.size = 378, 8
+slider.g.col = 112, 208, 132
+slider.g.offset = 186, 188
+slider.g.text.font = 2, 0, 1, 140, 224, 156
+slider.g.text.offset = 728, 558
+slider.g.text.scale = 0.65, 0.65
+slider.g.text.window = 728, 538, 816, 564
+slider.g.text.text = "G %3d"
+
+; Blue.
+slider.b.size = 378, 8
+slider.b.col = 112, 160, 240
+slider.b.offset = 186, 210
+slider.b.text.font = 2, 0, 1, 140, 180, 240
+slider.b.text.offset = 728, 580
+slider.b.text.scale = 0.65, 0.65
+slider.b.text.window = 728, 560, 816, 586
+slider.b.text.text = "B %3d"
+
+; Alpha, shown for RGBA palettes.
+slider.a.size = 378, 8
+slider.a.col = 224, 224, 232
+slider.a.offset = 186, 232
+slider.a.text.font = 2, 0, 1, 224, 224, 232
+slider.a.text.offset = 728, 602
+slider.a.text.scale = 0.65, 0.65
+slider.a.text.window = 728, 582, 816, 608
+slider.a.text.text = "A %3d"
+
+; Marked colors. Hue shifts degrees. Saturation/Value scale from -100% to +100%.
+slider.hue.offset = 186, 166
+slider.hue.size = 378, 8
+slider.hue.col = 255, 200, 96
+slider.hue.text.offset = 728, 536
+slider.hue.text.font = 2, 0, 1, 255, 200, 96
+slider.hue.text.scale = 0.65, 0.65
+slider.hue.text.window = 728, 516, 824, 542
+slider.hue.text.text = "H %+d"
+slider.saturation.offset = 186, 188
+slider.saturation.size = 378, 8
+slider.saturation.col = 160, 144, 240
+slider.saturation.text.offset = 728, 558
+slider.saturation.text.font = 2, 0, 1, 176, 160, 240
+slider.saturation.text.scale = 0.65, 0.65
+slider.saturation.text.window = 728, 538, 824, 564
+slider.saturation.text.text = "S %+d%%"
+slider.value.offset = 186, 210
+slider.value.size = 378, 8
+slider.value.col = 224, 224, 232
+slider.value.text.offset = 728, 580
+slider.value.text.font = 2, 0, 1, 224, 224, 232
+slider.value.text.scale = 0.65, 0.65
+slider.value.text.window = 728, 560, 824, 586
+slider.value.text.text = "V %+d%%"
+
+; Color actions. Copy lasts until closing the editor. Start saves pasted/reset colors.
+actions.key = b
+actions.up.key = U
+actions.down.key = D
+actions.confirm.key = a, s
+actions.cancel.key = b
+actions.title.text.offset = 640, 288
+actions.title.text.font = 2, 0, 0
+actions.title.text.scale = 0.85, 0.85
+actions.title.text.window = 382, 260, 898, 306
+actions.title.text.text = "COLOR ACTIONS"
+
+; Action list styles and spacing.
+actions.item.text.offset = 640, 332
+actions.item.text.font = 2, 0, 0, 208, 208, 208
+actions.item.text.scale = 0.8, 0.8
+actions.item.text.window = 382, 306, 898, 438
+actions.item.spacing = 0, 36
+actions.item.active.text.font = 2, 0, 0, 123, 206, 255
+actions.item.active.text.text = "[ %s ]"
+actions.item.disabled.text.font = 2, 0, 0, 112, 112, 120
+actions.multicolor.item.spacing = 0, 24
+
+actions.copy.text.text = "Copy color"
+actions.copy.done.text = "Color copied."
+
+actions.paste.text.text = "Paste color"
+actions.paste.done.text = "Color pasted."
+
+actions.reset.text.text = "Reset color to Before"
+actions.reset.done.text = "Color reset to Before."
+
+actions.adjust.text.text = "Adjust selected colors"
+
+actions.clear.text.text = "Clear selection"
+
+actions.empty.text = "Copy a color before pasting."
+
+; Save command and status messages.
+save.key = s
+save.text.offset = 640, 646
+save.text.font = 2, 0, 0
+save.text.scale = 0.7, 0.7
+save.text.window = 72, 630, 1208, 668
+save.text.textspacing = 0, 2.3
+save.text.textwrap = w
+save.text.text = "Palette %d saved."
+save.error.text = "Palette %d could not be saved. See the console for details."
+save.readonly.text = "This palette cannot be edited safely."
+save.pending.text = "Unsaved changes"
+save.idle.text = ""
+save.time = 180
+
+; Original palette backups. Existing backups are preserved.
+backupfiles = 1
+
+; Restore saves immediately. deletebackup removes the backup after restoration.
+restore.key = z
+restore.deletebackup = 1
+restore.text.offset = 640, 304
+restore.text.font = 2, 0, 0
+restore.text.scale = 0.85, 0.85
+restore.text.window = 382, 280, 898, 384
+restore.text.textspacing = 0, 11
+restore.text.textwrap = w
+restore.text.text = "Restore and save the\noriginal colors?\nUnsaved edits will be discarded."
+restore.done.text = "Palette %d restored."
+restore.error.text = "Palette %d could not be restored. See the console for details."
+restore.missing.text = "No original backup is available for palette %d."
+restore.cleanup.error.text = "Palette %d restored; its backup could not be removed."
+
+; Unsaved-changes confirmation.
+warning.text.offset = 640, 304
+warning.text.font = 2, 0, 0
+warning.text.scale = 0.85, 0.85
+warning.text.window = 382, 280, 898, 384
+warning.text.textspacing = 0, 11
+warning.text.textwrap = w
+warning.text.text = "You have unsaved changes.\nExit anyway?"
+warning.confirm.key = x, y, z, a, b, c, s
+warning.switch.key = F, B
+
+; Confirmation choices.
+yes.text.text = "Yes"
+yes.text.font = 2, 0, 0, 128, 128, 128
+yes.text.scale = 0.9, 0.9
+yes.text.offset = 550, 422
+yes.text.window = 480, 394, 620, 440
+yes.active.text.text = "[ YES ]"
+yes.active.text.font = 2, 0, 0, 123, 206, 255
+yes.active.text.scale = 1.0, 1.0
+yes.active.text.offset = 550, 422
+yes.active.text.window = 480, 394, 620, 440
+no.text.text = "No"
+no.text.font = 2, 0, 0, 128, 128, 128
+no.text.scale = 0.9, 0.9
+no.text.offset = 730, 422
+no.text.window = 660, 394, 800, 440
+no.active.text.text = "[ NO ]"
+no.active.text.font = 2, 0, 0, 123, 206, 255
+no.active.text.scale = 1.0, 1.0
+no.active.text.offset = 730, 422
+no.active.text.window = 660, 394, 800, 440
+
+; Contextual controls. Keep the message placeholders when editing.
+help.text.offset = 640, 690
+help.text.font = 2, 0, 0, 224, 224, 224
+help.text.scale = 0.6, 0.6
+help.text.window = 40, 674, 1240, 716
+help.text.textspacing = 0, 8
+help.text.textwrap = w
+help.select.text = "Directions: Colors   %s: Edit   %s: Actions   Hold %s: View\nHold %s: Animation%s   %s: Restore   %s: Save   Esc: Back"
+help.edit.text = "%s: Channel   %s: Value   %s: Apply   %s / Esc: Undo color"
+help.confirm.text = "%s: Choose   %s: Confirm   Esc: Cancel"
+help.actions.text = "%s: Choose   %s: Confirm   %s / Esc: Cancel"
+help.preview.text = "Hold %s: Adjust view   %s: Move   %s: Zoom   %s: Reset view"
+help.animation.text = "Hold %s: Browse animations   %s: Previous / Next   Release to return to colors"
+help.multicolor.text = "   %s: Mark"
+help.multicolor.edit.text = "%s: Channel   %s: Value   %s: Apply   %s / Esc: Undo group"
+
+; Background resources from the standard screenpack.
+[ColorEditorBGdef]
+bgclearcolor = 24, 16, 12
+
+[ColorEditorBG Sky]
+type = normal
+spriteno = 101, 0
+layerno = 0
+start = -640, 0
+
+[ColorEditorBG Clouds Top]
+type = normal
+spriteno = 101, 2
+layerno = 0
+start = -640, -50
+tile = 1, 0
+velocity = -0.1, 0
+mask = 1
+
+[ColorEditorBG Clouds Bottom]
+type = normal
+spriteno = 101, 3
+layerno = 0
+start = -640, 0
+tile = 1, 0
+velocity = -0.7, 0
+mask = 1
