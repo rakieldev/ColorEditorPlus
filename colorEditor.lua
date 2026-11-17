@@ -1,6 +1,6 @@
 -- Color Editor: In-game character palette editor.
 -- Version: 1.0.1
--- Date: 16/11/2026
+-- Date: 23/11/2026
 -- Author: Rakíel
 -- Compatible with: Ikemen GO 1.0 and nightly
 -- Description: Edit character palettes with RGB(A) and HSV controls, live previews, backups and restoration.

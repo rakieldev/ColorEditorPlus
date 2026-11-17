@@ -255,7 +255,7 @@ function t.inspect(path, pal)
 		check(file:seek('set', offset), 'Cannot read SFF palette')
 		local raw = read(file, node.size)
 		local info =
-			{path = path, pal = pal, version = v, size = size, offset = offset, raw = raw, count = node.size / 4, writable = true}
+		{path = path, pal = pal, version = v, size = size, offset = offset, raw = raw, count = node.size / 4, writable = true}
 		info.identity = checksum(palettes, checksum(sprites, checksum(header .. pack(size, 4))))
 		if v[2] ~= 0 or v[3] > 1 or v[4] ~= 0 then
 			info.writable, info.reason = false, 'Unsupported SFF revision for native writing'

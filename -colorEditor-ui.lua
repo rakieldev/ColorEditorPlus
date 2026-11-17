@@ -323,12 +323,12 @@ function t.new(m, cols, rows)
 				m.help.preview.text,
 				binding(m.preview.adjust.key),
 				binding(m.preview.move.up.key)
-					.. '/'
-					.. binding(m.preview.move.down.key)
-					.. '/'
-					.. binding(m.preview.move.back.key)
-					.. '/'
-					.. binding(m.preview.move.fwd.key),
+				.. '/'
+				.. binding(m.preview.move.down.key)
+				.. '/'
+				.. binding(m.preview.move.back.key)
+				.. '/'
+				.. binding(m.preview.move.fwd.key),
 				binding(m.preview.zoom.decrease.key) .. '/' .. binding(m.preview.zoom.increase.key),
 				binding(m.preview.reset.key)
 			)
