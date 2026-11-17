@@ -1,6 +1,6 @@
 -- Color Editor: In-game character palette editor.
--- Version: 1.0.0
--- Date: 06/11/2026
+-- Version: 1.0.1
+-- Date: 16/11/2026
 -- Author: Rakíel
 -- Compatible with: Ikemen GO 1.0 and nightly
 -- Description: Edit character palettes with RGB(A) and HSV controls, live previews, backups and restoration.
@@ -222,8 +222,9 @@ local function editPalette()
 	local multiConfig = m.multicolor
 	local multiEnabled = multiConfig and (multiConfig.enabled == true or tonumber(multiConfig.enabled) == 1)
 	local markedColors, markedCount = {}, 0
-	local groupColors, groupValues, groupChannel = {}, {0, 0, 0}, 1
-	local actionNames = {'copy', 'paste', 'reset', 'adjust', 'clear'}
+	local groupColors, groupValues, groupChannel = {}, {0, 0, 0, 0}, 1
+	local groupMode = 'hsv'
+	local actionNames = {'copy', 'paste', 'reset', 'adjustrgb', 'adjust', 'clear'}
 	local viewX, viewY, viewZoom = 0, 0, 1
 	local wasAdjusting, browseBlocked = false, false
 	local scaleX, scaleY = util.previewScale(preview, charData)
@@ -293,7 +294,15 @@ local function editPalette()
 	local function applyGroup()
 		local changes = {}
 		for index, color in pairs(groupColors) do
-			colorTable[index] = util.adjustHSV(color, groupValues[1], groupValues[2], groupValues[3])
+			if groupMode == 'rgb' then
+				local adjusted = {color[1], color[2], color[3], color[4]}
+				for channel = 1, channelCount do
+					adjusted[channel] = util.clamp(0, color[channel] + groupValues[channel], 255)
+				end
+				colorTable[index] = adjusted
+			else
+				colorTable[index] = util.adjustHSV(color, groupValues[1], groupValues[2], groupValues[3])
+			end
 			changes[index] = colorTable[index]
 		end
 		copyPalData(anim, changes)
@@ -384,7 +393,7 @@ local function editPalette()
 		elseif selectMode == 5 then
 			if esc() or getInput(-1, m.cell.cancel.key) then
 				esc(false)
-				groupValues = {0, 0, 0}
+				groupValues = {0, 0, 0, 0}
 				applyGroup()
 				groupColors = {}
 				selectMode, selectModeCooldown = 1, 15
@@ -396,17 +405,21 @@ local function editPalette()
 			else
 				local increase, decrease = sliderInput()
 				local channel = groupChannel
-				local limit = channel == 1 and 180 or 100
+				local channels = groupMode == 'rgb' and channelCount or 3
+				local limit = 255
+				if groupMode == 'hsv' then
+					limit = channel == 1 and 180 or 100
+				end
 				local value = util.clamp(-limit, groupValues[channel] + increase - decrease, limit)
 				if value ~= groupValues[channel] then
 					groupValues[channel] = value
 					applyGroup()
 				end
 				if getInput(-1, m.slider.next.key) then
-					groupChannel = groupChannel % 3 + 1
+					groupChannel = groupChannel % channels + 1
 					sndPlay(motif.Snd, m.move.snd[1], m.move.snd[2])
 				elseif getInput(-1, m.slider.prev.key) then
-					groupChannel = (groupChannel - 2) % 3 + 1
+					groupChannel = (groupChannel - 2) % channels + 1
 					sndPlay(motif.Snd, m.move.snd[1], m.move.snd[2])
 				end
 			end
@@ -461,24 +474,25 @@ local function editPalette()
 				selectMode = 1
 				sndPlay(motif.Snd, m.cancel.snd[1], m.cancel.snd[2])
 			elseif getInput(-1, m.actions.up.key) then
-				actionChoice = actionChoice == 1 and (markedCount > 0 and 5 or 3) or actionChoice - 1
+				actionChoice = actionChoice == 1 and (markedCount > 0 and #actionNames or 3) or actionChoice - 1
 				sndPlay(motif.Snd, m.move.snd[1], m.move.snd[2])
 			elseif getInput(-1, m.actions.down.key) then
-				actionChoice = actionChoice == (markedCount > 0 and 5 or 3) and 1 or actionChoice + 1
+				actionChoice = actionChoice == (markedCount > 0 and #actionNames or 3) and 1 or actionChoice + 1
 				sndPlay(motif.Snd, m.move.snd[1], m.move.snd[2])
 			elseif getInput(-1, m.actions.confirm.key) then
-				if actionChoice > 1 and actionChoice < 5 and not source.editable then
+				if actionChoice > 1 and actionChoice < #actionNames and not source.editable then
 					feedback(m.save.readonly.text, nil, true)
 				elseif actionChoice == 2 and not clipboard then
 					feedback(m.actions.empty.text, nil, true)
-				elseif actionChoice == 4 then
-					groupColors, groupValues, groupChannel = {}, {0, 0, 0}, 1
+				elseif actionChoice == 4 or actionChoice == 5 then
+					groupMode = actionChoice == 4 and 'rgb' or 'hsv'
+					groupColors, groupValues, groupChannel = {}, {0, 0, 0, 0}, 1
 					for index in pairs(markedColors) do
 						groupColors[index] = copyColors({colorTable[index]})[1]
 					end
 					selectMode = 5
 					sndPlay(motif.Snd, m.done.snd[1], m.done.snd[2])
-				elseif actionChoice == 5 then
+				elseif actionChoice == #actionNames then
 					markedColors, markedCount, selectMode = {}, 0, 1
 					sndPlay(motif.Snd, m.done.snd[1], m.done.snd[2])
 				else
@@ -486,16 +500,29 @@ local function editPalette()
 					if actionChoice == 1 then
 						clipboard = copyColors({colorTable[idx]})[1]
 					else
-						local color = copyColors({colorTable[idx]})[1]
-						local from = actionChoice == 2 and clipboard or savedColorTable[idx]
-						for channel = 1, channelCount do
-							color[channel] = from[channel]
+						local targets = {[idx] = true}
+						if actionChoice == 3 and markedCount > 0 then
+							targets = markedColors
 						end
-						updateColor(idx, color)
+						local changes = {}
+						for index in pairs(targets) do
+							local color = copyColors({colorTable[index]})[1]
+							local from = actionChoice == 2 and clipboard or savedColorTable[index]
+							for channel = 1, channelCount do
+								color[channel] = from[channel]
+							end
+							colorTable[index] = color
+							changes[index] = color
+						end
+						copyPalData(anim, changes)
 						updateChanged()
 					end
 					selectMode = 1
-					feedback(m.actions[action].done.text)
+					local message = m.actions[action].done.text
+					if actionChoice == 3 and markedCount > 0 then
+						message = m.actions.reset.selected.done.text
+					end
+					feedback(message)
 				end
 			end
 		elseif selectMode == 0 then
@@ -692,6 +719,7 @@ local function editPalette()
 			marked = markedColors,
 			markedCount = markedCount,
 			adjustment = groupValues,
+			adjustmentMode = groupMode,
 			editable = source.editable,
 			adjusting = adjusting and selectMode == 1,
 			browsing = browsing and selectMode == 1,

@@ -60,7 +60,7 @@ function t.new(m, cols, rows)
 	local multi = m.multicolor and (m.multicolor.enabled == true or tonumber(m.multicolor.enabled) == 1)
 	local actionNames = {'copy', 'paste', 'reset'}
 	if multi then
-		actionNames[4], actionNames[5] = 'adjust', 'clear'
+		actionNames[4], actionNames[5], actionNames[6] = 'adjustrgb', 'adjust', 'clear'
 		ui.labels.multicolor = label(m.multicolor.text)
 		for _, name in ipairs({'hue', 'saturation', 'value'}) do
 			ui.labels[name] = label(m.slider[name].text)
@@ -259,13 +259,24 @@ function t.new(m, cols, rows)
 			self.labels[name]:draw(s.text.text)
 		end
 
-		local sliders = state.mode == 5 and {'hue', 'saturation', 'value'} or {'r', 'g', 'b', 'a'}
+		local editingGroup = state.mode == 5
+		local hsv = editingGroup and state.adjustmentMode ~= 'rgb'
+		local sliders = hsv and {'hue', 'saturation', 'value'} or {'r', 'g', 'b', 'a'}
 		for i, name in ipairs(sliders) do
-			if state.mode == 5 or i <= state.channels then
+			if hsv or i <= state.channels then
 				local s = m.slider[name]
-				local value = state.mode == 5 and state.adjustment[i] or state.colors[state.index][i]
-				local limit = i == 1 and 180 or 100
-				local fraction = state.mode == 5 and (value + limit) / (2 * limit) or value / 255
+				local value = editingGroup and state.adjustment[i] or state.colors[state.index][i]
+				local text = s.text.text
+				local fraction = value / 255
+				if editingGroup then
+					local limit = 255
+					if hsv then
+						limit = i == 1 and 180 or 100
+					else
+						text = s.adjust.text
+					end
+					fraction = (value + limit) / (2 * limit)
+				end
 				local xPos, yPos = m.pos[1] + s.offset[1], m.pos[2] + s.offset[2]
 				rect(name .. 'track', xPos, yPos, s.size[1], s.size[2], m.slider.track.col)
 				rect(name .. 'fill', xPos, yPos, s.size[1] * fraction, s.size[2], s.col)
@@ -283,7 +294,7 @@ function t.new(m, cols, rows)
 					indicator.size[2],
 					indicator.col
 				)
-				self.labels[name]:draw(string.format(s.text.text, value))
+				self.labels[name]:draw(string.format(text, value))
 			end
 		end
 		self.labels.title:draw(m.title.text.text)
@@ -359,9 +370,14 @@ function t.new(m, cols, rows)
 				for i, name in ipairs(actionNames) do
 					if i <= 3 or (state.markedCount or 0) > 0 then
 						local active = state.action == i
-						local disabled = (i == 2 and not state.canPaste) or ((i == 3 or i == 4) and not state.editable)
+						local disabled = (i == 2 and not state.canPaste) or (i > 2 and name ~= 'clear' and not state.editable)
 						local style = disabled and 'disabled' or active and 'active' or 'normal'
 						local text = m.actions[name].text.text
+						if name == 'reset' and (state.markedCount or 0) > 0 then
+							text = m.actions.reset.selected.text.text
+						elseif name == 'adjustrgb' then
+							text = string.format(text, state.channels == 4 and 'RGBA' or 'RGB')
+						end
 						if active then
 							text = string.format(m.actions.item.active.text.text, text)
 						end

@@ -122,7 +122,7 @@ cell.cursor.tween.factor = 0.5, 0.5
 cell.cursor.offset = 0, 0
 cell.cursor.scale = 0.06, 0.06
 
-; Y marks indices for HSV adjustment. Marker offsets start at each cell.
+; Y marks indices for group adjustments. Marker offsets start at each cell.
 multicolor.enabled = 1
 multicolor.key = y
 multicolor.marker.col = 255, 200, 96
@@ -214,6 +214,7 @@ slider.track.col = 60, 60, 66
 slider.indicator.size = 2, 20
 slider.indicator.col = 240, 240, 240
 
+; RGB(A) group adjustments add -255 to +255. Zero is the center.
 ; Red.
 slider.r.size = 378, 8
 slider.r.col = 224, 100, 100
@@ -223,6 +224,7 @@ slider.r.text.offset = 728, 536
 slider.r.text.scale = 0.65, 0.65
 slider.r.text.window = 728, 516, 816, 542
 slider.r.text.text = "R %3d"
+slider.r.adjust.text = "R %+d"
 
 ; Green.
 slider.g.size = 378, 8
@@ -233,6 +235,7 @@ slider.g.text.offset = 728, 558
 slider.g.text.scale = 0.65, 0.65
 slider.g.text.window = 728, 538, 816, 564
 slider.g.text.text = "G %3d"
+slider.g.adjust.text = "G %+d"
 
 ; Blue.
 slider.b.size = 378, 8
@@ -243,6 +246,7 @@ slider.b.text.offset = 728, 580
 slider.b.text.scale = 0.65, 0.65
 slider.b.text.window = 728, 560, 816, 586
 slider.b.text.text = "B %3d"
+slider.b.adjust.text = "B %+d"
 
 ; Alpha, shown for RGBA palettes.
 slider.a.size = 378, 8
@@ -253,6 +257,7 @@ slider.a.text.offset = 728, 602
 slider.a.text.scale = 0.65, 0.65
 slider.a.text.window = 728, 582, 816, 608
 slider.a.text.text = "A %3d"
+slider.a.adjust.text = "A %+d"
 
 ; Marked colors. Hue shifts degrees. Saturation/Value scale from -100% to +100%.
 slider.hue.offset = 186, 166
@@ -301,7 +306,7 @@ actions.item.spacing = 0, 36
 actions.item.active.text.font = 2, 0, 0, 123, 206, 255
 actions.item.active.text.text = "[ %s ]"
 actions.item.disabled.text.font = 2, 0, 0, 112, 112, 120
-actions.multicolor.item.spacing = 0, 24
+actions.multicolor.item.spacing = 0, 20
 
 actions.copy.text.text = "Copy color"
 actions.copy.done.text = "Color copied."
@@ -311,8 +316,12 @@ actions.paste.done.text = "Color pasted."
 
 actions.reset.text.text = "Reset color to Before"
 actions.reset.done.text = "Color reset to Before."
+actions.reset.selected.text.text = "Reset selected colors to Before"
+actions.reset.selected.done.text = "Selected colors reset to Before."
 
-actions.adjust.text.text = "Adjust selected colors"
+; %s shows RGB or RGBA according to the editable channels.
+actions.adjustrgb.text.text = "Adjust %s"
+actions.adjust.text.text = "Adjust HSV"
 
 actions.clear.text.text = "Clear selection"
 

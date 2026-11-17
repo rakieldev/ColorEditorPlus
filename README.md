@@ -34,7 +34,7 @@ Buttons refer to Ikemen's logical inputs.
 | Esc / Menu | Go back or cancel the current edit. |
 | Start | Save the palette from the color grid. |
 
-To adjust several colors with Hue, Saturation and Value, mark them with **Y**, then press **B** and choose **Adjust selected colors**.
+To adjust several colors, mark them with **Y**, then press **B** and choose **Adjust RGB/RGBA** or **Adjust HSV**. Group sliders apply relative adjustments. The reset action also restores marked colors to their last saved values.
 
 **A applies changes. Start saves them.** Leaving with pending changes asks for confirmation. Leaving the editor returns to character selection.
 
